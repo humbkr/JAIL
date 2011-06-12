@@ -270,20 +270,26 @@
 
 		// Function that returns true if the image is visible inside the "window" (or specified container element)
 		_isInTheScreen : function($ct, $img, optionOffset) {
-			var is_ct_window  = $ct[0] === window,
-				ct_offset  = (is_ct_window ? { top:0, left:0 } : $ct.offset()),
-				ct_top     = ct_offset.top + ( is_ct_window ? $ct.scrollTop() : 0),
-				ct_left    = ct_offset.left + ( is_ct_window ? $ct.scrollLeft() : 0),
-				ct_right   = ct_left + $ct.width(),
-				ct_bottom  = ct_top + $ct.height(),
-				img_offset = $img.offset(),
-				img_width = $img.width(),
-				img_height = $img.height();
+                        var result;
+                        if($img.is(':visible')) {
+			        var is_ct_window  = $ct[0] === window,
+				        ct_offset  = (is_ct_window ? { top:0, left:0 } : $ct.offset()),
+				        ct_top     = ct_offset.top + ( is_ct_window ? $ct.scrollTop() : 0),
+				        ct_left    = ct_offset.left + ( is_ct_window ? $ct.scrollLeft() : 0),
+				        ct_right   = ct_left + $ct.width(),
+				        ct_bottom  = ct_top + $ct.height(),
+				        img_offset = $img.offset(),
+				        img_width = $img.width(),
+				        img_height = $img.height();
 			
-			return (ct_top - optionOffset) <= (img_offset.top + img_height) &&
-				(ct_bottom + optionOffset) >= img_offset.top &&
-					(ct_left - optionOffset)<= (img_offset.left + img_width) &&
-						(ct_right + optionOffset) >= img_offset.left;
+			        result = (ct_top - optionOffset) <= (img_offset.top + img_height) &&
+				        (ct_bottom + optionOffset) >= img_offset.top &&
+					        (ct_left - optionOffset)<= (img_offset.left + img_width) &&
+						        (ct_right + optionOffset) >= img_offset.left;
+                        } else {
+                                result = false;
+                        }
+                        return result;
 		},
 
 		// Main function --> Load the images copying the "data-href" attribute into the "src" attribute
